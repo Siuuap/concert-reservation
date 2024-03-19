@@ -1,4 +1,4 @@
-export interface OverviewF {
+export interface Overview {
   name: string;
   detail: string;
   people: number;

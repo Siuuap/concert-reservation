@@ -3,7 +3,7 @@ import React from 'react';
 import DeleteConfirmationModal from './Modal/DeleteConfirmationModal';
 import ReserveConfirmationModal from './Modal/ReserveConfirmationModal';
 import DataOverview from '@/assets/db/db2';
-import { OverviewF } from '@/interface/Overview';
+import { Overview } from '@/interface/Overview';
 import { FiUser } from 'react-icons/fi';
 import { usePathname } from 'next/navigation';
 import EditConcertModal from './Modal/EditConcertModal';
@@ -13,8 +13,8 @@ import Image from 'next/image';
 const Overview = (): React.ReactElement => {
   const pathName = usePathname();
   const [status, setStatus] = React.useState<number>(0);
-  const [isAdmin, setIsAdmin] = React.useState<Boolean>(false);
-  const [data, setdata] = React.useState<OverviewF[]>([...DataOverview]);
+  const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
+  const [data, setdata] = React.useState<Overview[]>([...DataOverview]);
   const [isModalOpenCancel, setIsModalOpenCancel] =
     React.useState<boolean>(false);
   const [isModaleDeleteOpen, setIsModalDeleteOpen] =
@@ -56,7 +56,7 @@ const Overview = (): React.ReactElement => {
   }, [pathName]);
   return (
     <>
-      {data.map((item: OverviewF, index: number) => {
+      {data.map((item: Overview, index: number) => {
         return (
           <div
             key={index}
