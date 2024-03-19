@@ -80,7 +80,7 @@ const RegisterPage = (): React.ReactElement => {
             type="text"
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
-            placeholder="Enter firstname"
+            placeholder="Enter Firstname"
           />
           {firstnameStatus ? (
             <p className="absolute top-[105%] text-red-600 text-[10px] text italic">
@@ -98,7 +98,7 @@ const RegisterPage = (): React.ReactElement => {
             type="text"
             value={lastname}
             onChange={(e) => setLastname(e.target.value)}
-            placeholder="Enter lastname"
+            placeholder="Enter Lastname"
           />
           {lastnameStatus ? (
             <p className="absolute top-[105%] text-red-600 text-[10px] text italic">
