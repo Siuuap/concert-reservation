@@ -64,6 +64,7 @@ const Overview = (): React.ReactElement => {
   React.useEffect(() => {
     getTickets();
   }, []);
+
   return (
     <>
       {tickets?.map((item: Overview, index: number) => {
