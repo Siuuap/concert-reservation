@@ -1,10 +1,14 @@
 'use client';
 import React from 'react';
-import { Concert } from '@/interface/Concert';
+import { Ticket } from '@/interface/Ticket';
 import axios from 'axios';
 import Image from 'next/image';
 import saveIcon from '@/assets/save.svg';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 const CreateForm: () => React.ReactElement = () => {
+  const router = useRouter();
   const [concertName, setConcertName] = React.useState<string>('');
   const [totalNumberOfSeat, setTotalNumberOfSeat] = React.useState<number>(0);
   const [description, setDescription] = React.useState<string>('');
@@ -13,7 +17,7 @@ const CreateForm: () => React.ReactElement = () => {
   const [totalNumberOfSeatStatus, setTotalNumberOfSeatStatus] =
     React.useState<string>('');
   const [descriptionStatus, setDescriptionStatus] = React.useState<string>('');
-  const handleSubmit = (e: React.SyntheticEvent): void => {
+  const handleSubmit = async (e: React.SyntheticEvent): Promise<void> => {
     e.preventDefault();
     setConcertNameStatus('');
     setTotalNumberOfSeatStatus('');
@@ -28,14 +32,54 @@ const CreateForm: () => React.ReactElement = () => {
       if (!description) {
         setDescriptionStatus('Cannot be blank');
       }
+      toast.error('Fail to create ticket', {
+        position: 'top-right',
+        autoClose: 900,
+        hideProgressBar: true,
+        style: {
+          backgroundColor: '#fed2d2',
+          color: '#b30000',
+        },
+      });
       return;
     }
-    const concert: Concert = {
+
+    const ticket: Ticket = {
       concert_name: concertName,
-      number_of_seat: totalNumberOfSeat,
+      total_seat: totalNumberOfSeat,
       description: description,
     };
-    const response = axios.post('');
+    try {
+      const response = await axios.post(
+        'http://localhost:4000/tickets',
+        ticket
+      );
+      console.log(`response:`, response);
+      toast.success('Create successfully', {
+        position: 'top-right',
+        autoClose: 900,
+        hideProgressBar: true,
+        style: {
+          backgroundColor: '#D0E7D2',
+          color: '#2B2B2B',
+          padding: '16px 6px',
+        },
+      });
+      console.log(`ticket`, ticket);
+      router.push(`/admin/overview`);
+    } catch (error) {
+      console.log(`error from axios`, error);
+      toast.error('Fail to create ticket', {
+        position: 'top-right',
+        autoClose: 900,
+        hideProgressBar: true,
+        style: {
+          backgroundColor: '#fed2d2',
+          color: '#b30000',
+          padding: '16px 6px',
+        },
+      });
+    }
   };
 
   return (
@@ -123,6 +167,7 @@ const CreateForm: () => React.ReactElement = () => {
         <Image src={saveIcon} alt="save icon" />
         <button className="text-[24px]">Save</button>
       </div>
+      <ToastContainer />
     </form>
   );
 };

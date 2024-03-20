@@ -1,21 +1,23 @@
 'use client';
 import React from 'react';
-import { Concert } from '@/interface/Concert';
+import { Concert } from '@/interface/Ticket';
 import axios from 'axios';
 import Image from 'next/image';
 import saveIcon from '@/assets/save.svg';
 import Modal from './Modal';
-
+import axios from 'axios';
 interface EditConcertModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: () => void;
+  id: string;
 }
 
 const EditConcertModal: React.FC<EditConcertModalProps> = ({
   isOpen,
   onClose,
   onSave,
+  id,
 }) => {
   const [concertName, setConcertName] = React.useState<string>('');
   const [totalNumberOfSeat, setTotalNumberOfSeat] = React.useState<number>(0);
@@ -25,6 +27,9 @@ const EditConcertModal: React.FC<EditConcertModalProps> = ({
   const [totalNumberOfSeatStatus, setTotalNumberOfSeatStatus] =
     React.useState<string>('');
   const [descriptionStatus, setDescriptionStatus] = React.useState<string>('');
+  async function fetchDataToEdit() {
+    const response = await axios.get('');
+  }
   const handleSubmit = (e: React.SyntheticEvent): void => {
     e.preventDefault();
     setConcertNameStatus('');

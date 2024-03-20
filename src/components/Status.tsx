@@ -7,12 +7,14 @@ import cancelIcon from '@/assets/x-circle.svg';
 import Image from 'next/image';
 import { StatusData } from '@/interface/StatusData';
 import { Overview } from '@/interface/Overview';
+import { useTicketContext } from '@/contexts/ticketContext';
 const Status: React.FC = () => {
+  const { tickets, setTickets } = useTicketContext();
   const [statusData, setStatusData] = React.useState<StatusData | null>(null);
 
   React.useEffect(() => {
     getTicketStatus();
-  }, []);
+  }, [tickets]);
 
   async function getTicketStatus() {
     try {
