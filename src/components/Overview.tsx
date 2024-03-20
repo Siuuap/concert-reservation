@@ -9,12 +9,13 @@ import { usePathname } from 'next/navigation';
 import EditConcertModal from './Modal/EditConcertModal';
 import trashIcon from '@/assets/trash.svg';
 import Image from 'next/image';
+import axios from 'axios';
 
 const Overview = (): React.ReactElement => {
   const pathName = usePathname();
   const [status, setStatus] = React.useState<number>(0);
   const [isAdmin, setIsAdmin] = React.useState<boolean>(false);
-  const [data, setdata] = React.useState<Overview[]>([...DataOverview]);
+  const [tickets, setTickets] = React.useState<Overview[]>([]);
   const [isModalOpenCancel, setIsModalOpenCancel] =
     React.useState<boolean>(false);
   const [isModaleDeleteOpen, setIsModalDeleteOpen] =
@@ -47,6 +48,12 @@ const Overview = (): React.ReactElement => {
     setIsModalOpenReserve(false);
   };
   const onSave = (): void => {};
+
+  async function getTickets() {
+    const response = await axios.get('http://localhost:4000/tickets');
+    setTickets(response.data);
+  }
+
   React.useEffect(() => {
     if (pathName.startsWith('/admin')) {
       setIsAdmin(true);
@@ -54,22 +61,25 @@ const Overview = (): React.ReactElement => {
       setIsAdmin(false);
     }
   }, [pathName]);
+  React.useEffect(() => {
+    getTickets();
+  }, []);
   return (
     <>
-      {data.map((item: Overview, index: number) => {
+      {tickets?.map((item: Overview, index: number) => {
         return (
           <div
             key={index}
             className="border border-solid border-[#C2C2C2] mb-7 rounded-lg p-[24px] 2xl:p-[40px] w-full flex flex-col gap-[24px]"
           >
             <h2 className="text-[32px] border-b border-solid border-[#C2C2C2] text-[#1692EC] pb-[24px]">
-              {item.name}
+              {item.concert_name}
             </h2>
 
-            <p>{item.detail}</p>
+            <p>{item.description}</p>
             <div className=" flex flex-row items-center justify-between">
               <div className="flex flex-row items-center gap-4 text-lg">
-                <FiUser /> {item.people}
+                <FiUser /> {item.description}
               </div>
               <div className="flex w-[50%] justify-end  gap-[16px]">
                 {isAdmin ? (
