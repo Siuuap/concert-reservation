@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { StatusData } from '@/interface/StatusData';
 import { Overview } from '@/interface/Overview';
 import { useTicketContext } from '@/contexts/ticketContext';
+import { UserTicket } from '@/interface/UserTicket';
 const Status: React.FC = () => {
   const { tickets, setTickets } = useTicketContext();
   const [statusData, setStatusData] = React.useState<StatusData | null>(null);
@@ -19,20 +20,34 @@ const Status: React.FC = () => {
   async function getTicketStatus() {
     try {
       const response = await axios.get('http://localhost:4000/tickets');
-
+      const user_ticket = await axios.get('http://localhost:4000/user_tickets');
+      console.log(`user_ticket`, user_ticket);
       const total_seat = response.data.reduce(
         (acc: number, item: Overview) => acc + item.total_seat,
         0
       );
-      const reserved_seat = response.data.reduce(
-        (acc: number, item: Overview) => acc + item.reserved_seat,
-        0
-      );
-      const canceled_seat = response.data.reduce(
-        (acc: number, item: Overview) => acc + item.total_seat,
-        0
-      );
 
+      const canceled_seat = user_ticket.data.reduce(
+        (acc: number, item: UserTicket) => {
+          if (item.status === 'cancel') {
+            acc += 1;
+          }
+          return acc;
+        },
+        0
+      );
+      const fetch_reserve_seat = user_ticket.data.reduce(
+        (acc: number, item: UserTicket) => {
+          if (item.status === 'reserve') {
+            acc += 1;
+          }
+          return acc;
+        },
+        0
+      );
+      const reserved_seat = fetch_reserve_seat - canceled_seat;
+
+      console.log(`cancel`, canceled_seat);
       setStatusData({ total_seat, reserved_seat, canceled_seat });
     } catch (error) {
       console.error('Error fetching status data:', error);

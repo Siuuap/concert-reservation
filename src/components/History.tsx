@@ -2,9 +2,32 @@
 import React, { useState } from 'react';
 import dataDb from '@/assets/db/db';
 import { History } from '@/interface/History';
-const History: () => React.ReactElement = () => {
-  const [data, setdata] = useState<History[]>([...dataDb]);
+import axios from 'axios';
+import { useTicketContext } from '@/contexts/ticketContext';
+const HistoryPage: () => React.ReactElement = () => {
+  const { history, setHistory } = useTicketContext();
+  function formatDate(d: Date) {
+    const date = new Date(d);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const time = date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
+    return `${day}/${month}/${year} ${time}`;
+  }
+  async function getHistory(): Promise<void> {
+    const response = await axios.get('http://localhost:4000/user_tickets');
+    console.log(response.data);
 
+    setHistory(response.data);
+  }
+
+  React.useEffect(() => {
+    getHistory();
+  }, []);
   return (
     <>
       <div className="flex justify-center m-4">
@@ -18,20 +41,21 @@ const History: () => React.ReactElement = () => {
             </tr>
           </thead>
           <tbody>
-            {data.map((item: History, index: number) => {
+            {history.map((item: any, index: number) => {
               return (
                 <tr key={index}>
                   <td className=" text-center border border-slate-300">
-                    {item.dateTime}
+                    {formatDate(item.action_date)}
                   </td>
                   <td className=" text-center border border-slate-300">
-                    {item.userName}
+                    {item.users?.user_profile[0]?.firstname}{' '}
+                    {item.users?.user_profile[0]?.lastname}
                   </td>
                   <td className=" text-center border border-slate-300">
-                    {item.concertName}
+                    {item.tickets?.concert_name}
                   </td>
                   <td className=" text-center border border-slate-300">
-                    {item.action}
+                    {item.status}
                   </td>
                 </tr>
               );
@@ -43,4 +67,4 @@ const History: () => React.ReactElement = () => {
   );
 };
 
-export default History;
+export default HistoryPage;

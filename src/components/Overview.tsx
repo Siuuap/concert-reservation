@@ -57,7 +57,7 @@ const Overview = (): React.ReactElement => {
           padding: '16px 6px',
         },
       });
-      // await getTickets();
+      getTickets();
     } catch (error) {
       console.log(`error from axios`);
       toast.error('Fail to delete ticket', {

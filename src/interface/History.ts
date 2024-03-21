@@ -1,6 +1,7 @@
 export interface History {
-  dateTime: string;
-  userName: string;
-  concertName: string;
-  action: string;
+  id: string;
+  status: string;
+  action_date: Date;
+  user_id: string;
+  ticket_id: string;
 }

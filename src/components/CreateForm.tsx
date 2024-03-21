@@ -163,10 +163,12 @@ const CreateForm: () => React.ReactElement = () => {
           <p className="absolute top-[155px] text-[red]">{descriptionStatus}</p>
         ) : null}
       </div>
-      <div className="flex px-[16px] py-[12px] self-center md:self-end justify-center bg-[#1692EC] rounded-md w-[160px] text-white gap-[10px]">
+
+      <button className="flex px-[16px] py-[12px] self-center md:self-end justify-center bg-[#1692EC] rounded-md w-[160px] text-white gap-[10px]">
         <Image src={saveIcon} alt="save icon" />
-        <button className="text-[24px]">Save</button>
-      </div>
+        Save
+      </button>
+
       <ToastContainer />
     </form>
   );
