@@ -57,7 +57,7 @@ const Overview = (): React.ReactElement => {
           padding: '16px 6px',
         },
       });
-      await getTickets();
+      // await getTickets();
     } catch (error) {
       console.log(`error from axios`);
       toast.error('Fail to delete ticket', {
@@ -74,7 +74,17 @@ const Overview = (): React.ReactElement => {
   }
   const [isModalOpenReserve, setIsModalOpenReserve] =
     React.useState<boolean>(false);
-
+  // async function getTicketData(id: string) {
+  //   try {
+  //     const response = await axios.get(`http://localhost:4000/tickets/${id}`);
+  //     console.log(response);
+  //     setConcertName(response.data.concert_name);
+  //     setTotalNumberOfSeat(response.data.total_seat);
+  //     setDescription(response.data.description);
+  //   } catch (error) {
+  //     console.log(`error from axios`, error);
+  //   }
+  // }
   const openModalReserve = (): void => {
     setIsModalOpenReserve(true);
   };
@@ -127,16 +137,13 @@ const Overview = (): React.ReactElement => {
                     <>
                       <button
                         className="px-4 py-2 bg-[#1692EC] text-white rounded hover:bg-[#0084e3] focus:outline-none  w-[50%] sm:w-[128px] font-[400] text-[18px] sm:text-[24px]"
-                        onClick={openModalReserve}
+                        onClick={() => {
+                          router.push(`/admin/edit/${String(item.id)}`);
+                        }}
                       >
                         Edit
                       </button>
-                      <EditConcertModal
-                        isOpen={isModalOpenReserve}
-                        onClose={closeModalReserve}
-                        onSave={onSave}
-                        id={item.id}
-                      />
+
                       <button
                         className="px-[16px] py-[12px] bg-red-500 text-white rounded hover:bg-red-800 focus:outline-none w-[50%] sm:w-[128px] flex justify-center gap-[10px] text-[18px] sm:text-[24px] font-[400] items-center"
                         onClick={openModalDelete}

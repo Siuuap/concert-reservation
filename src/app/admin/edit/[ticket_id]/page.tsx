@@ -4,45 +4,40 @@ import { Ticket } from '@/interface/Ticket';
 import axios from 'axios';
 import Image from 'next/image';
 import saveIcon from '@/assets/save.svg';
-import Modal from './Modal';
-
-interface EditConcertModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: () => void;
-  id: string;
-  concertName: string;
-  description: string;
-  totalNumberOfSeat: number;
+import { useRouter } from 'next/navigation';
+interface EditConcertPage {
+  params: any;
 }
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+const EditConcertModal: React.FC<EditConcertPage> = ({ params }) => {
+  const id = params.ticket_id;
+  const router = useRouter();
+  const [concertName, setConcertName] = React.useState<string>('');
+  const [totalNumberOfSeat, setTotalNumberOfSeat] = React.useState<number>(0);
+  const [description, setDescription] = React.useState<string>('');
+  const [reservedSeat, setReservedSeat] = React.useState<string>('');
 
-const EditConcertModal: React.FC<EditConcertModalProps> = ({
-  isOpen,
-  onClose,
-  onSave,
-  id,
-  concertName,
-  description,
-  totalNumberOfSeat,
-}) => {
   const [concertNameStatus, setConcertNameStatus] = React.useState<string>('');
   const [totalNumberOfSeatStatus, setTotalNumberOfSeatStatus] =
     React.useState<string>('');
   const [descriptionStatus, setDescriptionStatus] = React.useState<string>('');
 
-  // async function getTicketData() {
-  //   try {
-  //     const response = await axios.get(`http://localhost:4000/tickets/${id}`);
-  //     console.log(response);
-  //     setConcertName(response.data.concert_name);
-  //     setTotalNumberOfSeat(response.data.total_seat);
-  //     setDescription(response.data.description);
-  //   } catch (error) {
-  //     console.log(`error from axios`, error);
-  //   }
-  // }
-  console.log(`hello`);
-  const handleSubmit = (e: React.SyntheticEvent): void => {
+  console.log(params);
+  async function getTicketData() {
+    try {
+      const response = await axios.get(`http://localhost:4000/tickets/${id}`);
+      console.log(response);
+      setConcertName(response.data.concert_name);
+      setTotalNumberOfSeat(response.data.total_seat);
+      setDescription(response.data.description);
+      setReservedSeat(response.data.reserved_seat);
+    } catch (error) {
+      console.log(`error from axios`, error);
+    }
+  }
+
+  const handleSubmit = async (e: React.SyntheticEvent): Promise<void> => {
     e.preventDefault();
     setConcertNameStatus('');
     setTotalNumberOfSeatStatus('');
@@ -59,22 +54,30 @@ const EditConcertModal: React.FC<EditConcertModalProps> = ({
       }
       return;
     }
-    const ticket: Ticket = {
+    const ticket = {
       concert_name: concertName,
       total_seat: totalNumberOfSeat,
       description: description,
+      reserved_seat: reservedSeat,
     };
-    const response = axios.post('');
+    try {
+      const response = await axios.put(
+        `http://localhost:4000/tickets/${id}`,
+        ticket
+      );
+      console.log(response);
+      router.push('/admin/overview');
+    } catch (error) {
+      console.log(`error from axios :`, error);
+    }
   };
-  // React.useEffect(() => {
-  //   getTicketData();
-  // }, [id]);
+  React.useEffect(() => {
+    getTicketData();
+  }, []);
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <form
-        className="w-[375px] sm:w-[640px] md:w-[768px] lg:w-[1024px] 2xl:w-[1200px] flex flex-col p-[16px] 2xl:p-[40px] gap-[30px]"
-        onSubmit={handleSubmit}
-      >
+    <section className="flex justify-center items-center h-screen w-screen bg-[#000]">
+      <section className="bg-[#fff] w-[375px] sm:w-[640px] md:w-[768px] lg:w-[1024px] 2xl:w-[1200px] flex flex-col p-[16px] 2xl:p-[40px] gap-[30px] rounded-lg">
         <h2 className="text-[#1692EC] text-[40px] font-[600] border-b border-solid border-b-[#C2C2C2] pb-[24px]">
           Edit
         </h2>
@@ -156,17 +159,24 @@ const EditConcertModal: React.FC<EditConcertModalProps> = ({
         </div>
         <div className="flex w-full justify-between">
           <div className="flex px-[16px] py-[12px] self-center md:self-start justify-center bg-gray-400 rounded-md w-[160px] text-white gap-[10px]">
-            <button className="text-[24px]" onClick={onClose}>
-              cancel
+            <button
+              className="text-[24px]"
+              onClick={() => {
+                router.push(`/admin/overview`);
+              }}
+            >
+              Cancel
             </button>
           </div>
           <div className="flex px-[16px] py-[12px] self-center md:self-end justify-center bg-[#1692EC] rounded-md w-[160px] text-white gap-[10px]">
             <Image src={saveIcon} alt="save icon" />
-            <button className="text-[24px]">Update</button>
+            <button className="text-[24px]" onClick={handleSubmit}>
+              Update
+            </button>
           </div>
         </div>
-      </form>
-    </Modal>
+      </section>
+    </section>
   );
 };
 
