@@ -21,7 +21,6 @@ const Status: React.FC = () => {
     try {
       const response = await axios.get('http://localhost:4000/tickets');
       const user_ticket = await axios.get('http://localhost:4000/user_tickets');
-      console.log(`user_ticket`, user_ticket);
       const total_seat = response.data.reduce(
         (acc: number, item: Overview) => acc + item.total_seat,
         0
@@ -53,7 +52,6 @@ const Status: React.FC = () => {
       console.error('Error fetching status data:', error);
     }
   }
-  console.log(statusData);
 
   return (
     <div className="flex flex-col justify-between gap-4 md:flex-row">

@@ -4,6 +4,7 @@ import dataDb from '@/assets/db/db';
 import { History } from '@/interface/History';
 import axios from 'axios';
 import { useTicketContext } from '@/contexts/ticketContext';
+
 const HistoryPage: () => React.ReactElement = () => {
   const { history, setHistory } = useTicketContext();
   function formatDate(d: Date) {
@@ -18,16 +19,7 @@ const HistoryPage: () => React.ReactElement = () => {
     });
     return `${day}/${month}/${year} ${time}`;
   }
-  async function getHistory(): Promise<void> {
-    const response = await axios.get('http://localhost:4000/user_tickets');
-    console.log(response.data);
 
-    setHistory(response.data);
-  }
-
-  React.useEffect(() => {
-    getHistory();
-  }, []);
   return (
     <>
       <div className="flex justify-center m-4">

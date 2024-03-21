@@ -2,6 +2,7 @@
 import React from 'react';
 import { Overview } from '@/interface/Overview';
 import { Ticket } from '@/interface/Ticket';
+import axios from 'axios';
 interface TicketContextType {
   tickets: any[];
   setTickets: React.Dispatch<React.SetStateAction<any[]>>;
@@ -21,6 +22,10 @@ export const TicketProvider: React.FC<{ children: React.ReactNode }> = ({
   const [tickets, setTickets] = React.useState<any[]>([]);
   const [history, setHistory] = React.useState<any[]>([]);
 
+  // React.useEffect(() => {
+  //   getHistory();
+  //   getTickets();
+  // }, []);
   return (
     <TicketContext.Provider
       value={{ tickets, setTickets, history, setHistory }}

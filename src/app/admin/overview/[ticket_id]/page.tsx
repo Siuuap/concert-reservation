@@ -1,5 +1,5 @@
+'use client';
 import React from 'react';
-import Modal from './Modal';
 import deleteIcon from '@/assets/delete.svg';
 import Image from 'next/image';
 import axios from 'axios';
@@ -8,26 +8,52 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
 import { useTicketContext } from '@/contexts/ticketContext';
 interface DeleteConfirmationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
   getTickets: () => void;
   ticket_id: string;
-  handleDeleteTicket: () => void;
+  params: any;
 }
 
 const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
-  isOpen,
-  onClose,
   ticket_id,
   getTickets,
-  handleDeleteTicket,
+  params,
 }) => {
   const router = useRouter();
+  const id = params.ticket_id;
   const { tickets, setTickets } = useTicketContext();
+  async function onDelete(ticket_id: string): Promise<void> {
+    try {
+      const response = await axios.delete(
+        `http://localhost:4000/tickets/${id}`
+      );
 
+      toast.success(response.data.message, {
+        position: 'top-right',
+        autoClose: 900,
+        hideProgressBar: true,
+        style: {
+          backgroundColor: '#D0E7D2',
+          color: '#2B2B2B',
+          padding: '16px 6px',
+        },
+      });
+      router.push('/admin/overview');
+    } catch (error) {
+      console.log(`error from axios`);
+      toast.error('Fail to delete ticket', {
+        position: 'top-right',
+        autoClose: 900,
+        hideProgressBar: true,
+        style: {
+          backgroundColor: '#fed2d2',
+          color: '#b30000',
+        },
+      });
+    }
+  }
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="flex flex-col w-[300px] sm:w-[442px] gap-[24px] justify-center items-center">
+    <section className="flex justify-center items-center h-screen w-screen bg-[#000]">
+      <div className="bg-[#fff] flex flex-col w-[300px] sm:w-[442px] gap-[24px] justify-center items-center p-6">
         <Image src={deleteIcon} alt="cancel icon" />
         <p className="text-[#000] font-[700] text-[20px] text-center">
           Are you sure you want to Delete ?
@@ -40,20 +66,22 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
         <div className="flex gap-[16px] w-full">
           <button
             className="border border-solid border-[#C4C4C4] px-4 py-2 bg-[white] rounded-[4px] hover:bg-gray-300 focus:outline-none basis-1/2 text-[#262626]"
-            onClick={onClose}
+            onClick={() => {
+              router.push(`/admin/overview`);
+            }}
           >
             Cancel
           </button>
           <button
             className="px-4 py-2 rounded-[4px] bg-red-500 text-white hover:bg-red-600 focus:outline-none basis-1/2"
-            onClick={handleDeleteTicket}
+            onClick={() => onDelete(ticket_id)}
           >
             Yes, Delete
           </button>
         </div>
       </div>
       <ToastContainer />
-    </Modal>
+    </section>
   );
 };
 
