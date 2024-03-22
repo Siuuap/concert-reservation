@@ -3,6 +3,7 @@
 2.	Within the concert-server project, create a .env file and perform the step follow the attach file in email add the following lines of code:
 
 SUPABASE_URL= (follow the instructions provided in the attached document in an email)
+
 SUPABASE_ANON_KEY= (follow the instructions provided in the attached document in an email)
 
 3.	In the terminal of concert-reservation project, navigate to the concert-reservation directory and run the following command to start the development mode:
