@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
 import { useTicketContext } from '@/contexts/ticketContext';
+import { useSearchParams } from 'next/navigation';
 interface DeleteConfirmationModalProps {
   getTickets: () => void;
   ticket_id: string;
@@ -19,8 +20,11 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   params,
 }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const concert_name = searchParams.get('concert_name');
   const id = params.ticket_id;
-  const { tickets, setTickets } = useTicketContext();
+
   async function onDelete(ticket_id: string): Promise<void> {
     try {
       const response = await axios.delete(
@@ -59,7 +63,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
           Are you sure you want to Delete ?
           <br />
           <span className="text-[#000] font-[700] text-[20px] text-center">
-            &quot;{`ConcertName 2`}&quot;
+            &quot;{concert_name}&quot;
           </span>
         </p>
 

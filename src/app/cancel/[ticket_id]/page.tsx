@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 interface CancelConfirmationModalProp {
   params: any;
 }
@@ -14,6 +15,8 @@ interface CancelConfirmationModalProp {
 const CancelConfirmationModal: React.FC<CancelConfirmationModalProp> = ({
   params,
 }) => {
+  const searchParams = useSearchParams();
+  const concert_name = searchParams.get('concert_name');
   const user_id = 'f0a90245-416d-46fc-870e-9d93a6dd2051';
   const router = useRouter();
   const ticket_id = params.ticket_id;
@@ -58,7 +61,7 @@ const CancelConfirmationModal: React.FC<CancelConfirmationModalProp> = ({
           Are you sure you want to Delete ?
           <br />
           <span className="text-[#000] font-[700] text-[20px] text-center">
-            &quot;{`ConcertName 2`}&quot;
+            &quot;{concert_name}&quot;
           </span>
         </p>
 

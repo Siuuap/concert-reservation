@@ -7,6 +7,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 interface ReserveConfirmationModalProps {
   params: any;
 }
@@ -14,9 +15,11 @@ interface ReserveConfirmationModalProps {
 const ReserveConfirmationModal: React.FC<ReserveConfirmationModalProps> = ({
   params,
 }) => {
+  const searchParams = useSearchParams();
   const user_id = 'f0a90245-416d-46fc-870e-9d93a6dd2051';
   const router = useRouter();
   const ticket_id = params.ticket_id;
+  const concert_name = searchParams.get('concert_name');
   async function handleReserve(user_id: string, ticket_id: string) {
     try {
       const response = await axios.post(
@@ -59,7 +62,7 @@ const ReserveConfirmationModal: React.FC<ReserveConfirmationModalProps> = ({
           Are you sure you want to Reserve ?
           <br />
           <span className="text-[#000] font-[700] text-[20px] text-center">
-            &quot;{`ConcertName 2`}&quot;
+            &quot;{concert_name}&quot;
           </span>
         </p>
         <div className="flex gap-[16px] w-full">

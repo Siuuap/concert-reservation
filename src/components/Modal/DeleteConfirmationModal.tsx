@@ -9,9 +9,10 @@ import { useRouter } from 'next/navigation';
 import { useTicketContext } from '@/contexts/ticketContext';
 interface DeleteConfirmationModalProps {
   isOpen: boolean;
+  ticket_id: string;
+  concert_name: string;
   onClose: () => void;
   getTickets: () => void;
-  ticket_id: string;
   handleDeleteTicket: () => void;
 }
 
@@ -21,6 +22,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   ticket_id,
   getTickets,
   handleDeleteTicket,
+  concert_name,
 }) => {
   const router = useRouter();
   const { tickets, setTickets } = useTicketContext();
@@ -33,7 +35,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
           Are you sure you want to Delete ?
           <br />
           <span className="text-[#000] font-[700] text-[20px] text-center">
-            &quot;{`ConcertName 2`}&quot;
+            &quot;{concert_name}&quot;
           </span>
         </p>
 

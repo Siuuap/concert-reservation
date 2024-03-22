@@ -42,7 +42,7 @@ const Overview = (): React.ReactElement => {
   }
   async function getTickets() {
     const response = await axios.get('http://localhost:4000/tickets');
-    setTickets(response?.data);
+    setTickets(response?.data.data);
   }
   React.useEffect(() => {
     getTickets();
@@ -198,7 +198,11 @@ const Overview = (): React.ReactElement => {
                       <button
                         className="px-[16px] py-[12px] bg-red-500 text-white rounded hover:bg-red-800 focus:outline-none w-[50%] sm:w-[128px] flex justify-center gap-[10px] text-[18px] sm:text-[24px] font-[400] items-center"
                         onClick={() => {
-                          router.push(`/admin/overview/${String(item.id)}`);
+                          router.push(
+                            `/admin/overview/${String(item.id)}?concert_name=${
+                              item.concert_name
+                            }`
+                          );
                         }}
                       >
                         <Image
@@ -208,15 +212,6 @@ const Overview = (): React.ReactElement => {
                         />
                         Delete
                       </button>
-                      <DeleteConfirmationModal
-                        isOpen={isModaleDeleteOpen}
-                        onClose={closeModalDelete}
-                        ticket_id={item.id}
-                        getTickets={getTickets}
-                        handleDeleteTicket={() =>
-                          handleDeleteTicket(String(item.id))
-                        }
-                      />
                     </>
                   ) : (
                     <div>
@@ -225,17 +220,15 @@ const Overview = (): React.ReactElement => {
                           <button
                             className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
                             onClick={() => {
-                              router.push('/cancel/' + String(item.id));
+                              router.push(
+                                `/cancel/${String(item.id)}?concert_name=${
+                                  item.concert_name
+                                }`
+                              );
                             }}
                           >
                             Cancel
                           </button>
-                          <CancelConfirmationModal
-                            isOpen={isModalOpenCancel}
-                            onClose={closeModalCancel}
-                            user_id={user_id}
-                            ticket_id={item.id}
-                          />
                         </>
                       ) : (
                         <>
@@ -243,17 +236,15 @@ const Overview = (): React.ReactElement => {
                             className="px-4 py-2 bg-[#1692EC] text-white rounded hover:bg-[#0084e3] focus:outline-none"
                             onClick={() => {
                               console.log(`ticket_id`, item.id);
-                              router.push(`/reserve/${String(item.id)}`);
+                              router.push(
+                                `/reserve/${String(item.id)}?concert_name=${
+                                  item.concert_name
+                                }`
+                              );
                             }}
                           >
                             Reserve
                           </button>
-                          <ReserveConfirmationModal
-                            isOpen={isModalOpenReserve}
-                            onClose={closeModalReserve}
-                            user_id={user_id}
-                            ticket_id={item.id}
-                          />
                         </>
                       )}
                     </div>

@@ -164,7 +164,7 @@ const CreateForm: () => React.ReactElement = () => {
         ) : null}
       </div>
 
-      <button className="flex px-[16px] py-[12px] self-center md:self-end justify-center bg-[#1692EC] rounded-md w-[160px] text-white gap-[10px]">
+      <button className="flex px-[16px] py-[12px] self-center md:self-end justify-center bg-[#1692EC] hover:bg-[#45a5e9] rounded-md w-[160px] text-white gap-[10px]">
         <Image src={saveIcon} alt="save icon" />
         Save
       </button>

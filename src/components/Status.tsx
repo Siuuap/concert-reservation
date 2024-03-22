@@ -21,7 +21,7 @@ const Status: React.FC = () => {
     try {
       const response = await axios.get('http://localhost:4000/tickets');
       const user_ticket = await axios.get('http://localhost:4000/user_tickets');
-      const total_seat = response.data.reduce(
+      const total_seat = response.data.data.reduce(
         (acc: number, item: Overview) => acc + item.total_seat,
         0
       );

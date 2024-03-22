@@ -28,10 +28,10 @@ const EditConcertModal: React.FC<EditConcertPage> = ({ params }) => {
     try {
       const response = await axios.get(`http://localhost:4000/tickets/${id}`);
       console.log(response);
-      setConcertName(response.data.concert_name);
-      setTotalNumberOfSeat(response.data.total_seat);
-      setDescription(response.data.description);
-      setReservedSeat(response.data.reserved_seat);
+      setConcertName(response.data.data[0].concert_name);
+      setTotalNumberOfSeat(response.data.data[0].total_seat);
+      setDescription(response.data.data[0].description);
+      setReservedSeat(response.data.data[0].reserved_seat);
     } catch (error) {
       console.log(`error from axios`, error);
     }
@@ -158,22 +158,22 @@ const EditConcertModal: React.FC<EditConcertPage> = ({ params }) => {
           ) : null}
         </div>
         <div className="flex w-full justify-between">
-          <div className="flex px-[16px] py-[12px] self-center md:self-start justify-center bg-gray-400 rounded-md w-[160px] text-white gap-[10px]">
-            <button
-              className="text-[24px]"
-              onClick={() => {
-                router.push(`/admin/overview`);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-          <div className="flex px-[16px] py-[12px] self-center md:self-end justify-center bg-[#1692EC] rounded-md w-[160px] text-white gap-[10px]">
+          <button
+            className="text-[24px] flex px-[16px] py-[12px] self-center md:self-start justify-center bg-gray-600 hover:bg-gray-400 rounded-md w-[160px] text-white gap-[10px]"
+            onClick={() => {
+              router.push(`/admin/overview`);
+            }}
+          >
+            Cancel
+          </button>
+
+          <button
+            className="text-[24px] items-center flex px-[16px] py-[12px] self-center md:self-end justify-center bg-[#1692EC] hover:bg-[#48b0fa] rounded-md w-[160px] text-white gap-[10px]"
+            onClick={handleSubmit}
+          >
             <Image src={saveIcon} alt="save icon" />
-            <button className="text-[24px]" onClick={handleSubmit}>
-              Update
-            </button>
-          </div>
+            Update
+          </button>
         </div>
       </section>
     </section>
