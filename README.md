@@ -1,6 +1,6 @@
 # How to run the app:
 1.	Firstly, clone the concert-reservation and concert-server projects. 
-2.	Within the concert-server project, create a .env file and perform the step follow the attach file in email add the following lines of code:
+2.	Within the concert-server project, create a .env file and perform the step follow the attach file in email and add the following lines of code:
 
 SUPABASE_URL= (follow the instructions provided in the attached document in an email)
 
