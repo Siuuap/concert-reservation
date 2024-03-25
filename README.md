@@ -1,24 +1,30 @@
 # How to run the app:
-1.	Firstly, clone the concert-reservation and concert-server projects. 
-2.	Within the concert-server project, create a .env file and perform the step follow the attach file in email and add the following lines of code:
 
-SUPABASE_URL= (follow the instructions provided in the attached document in an email)
-
-SUPABASE_ANON_KEY= (follow the instructions provided in the attached document in an email)
-
-3.	In the terminal of concert-reservation project, navigate to the concert-reservation directory and run the following command to start the development mode:
+## Client Side 
+1.	Firstly, clone the concert-reservation project (https://github.com/Siuuap/concert-reservation). 
+2.	In the terminal of concert-reservation project, run the following command to start the development mode:
 
 -	`npm install`
 
 -	`npm run dev`
 
-Similarly, in another terminal window, navigate to the concert-server directory and run the following command to start the server in development mode:
+you will observe that concert-reservation is running on http://localhost:3000.
+
+## Server Side
+1.	Firstly, clone concert-server project (https://github.com/Siuuap/concert-server).
+2.	Create a `.env` file in the root folder of the concert-server project and add the following lines of code to the `.env` file:
+
+SUPABASE_URL= (provided in the attached document in an email)
+
+SUPABASE_ANON_KEY= (provided in the attached document in an email)
+
+3.  In the terminal of concert-server project, run the following command to start the development mode:
 
 -	`npm install`
 
 -	`npm run start:dev`
-
-Upon successful execution, you will observe that concert-reservation is running on http://localhost:3000, while concert-server is running on port 4000.
+  
+you will observe that concert-reservation is running on http://localhost:4000.
 
 # Overview:
 ## Frontend (concert-reservation):
@@ -61,3 +67,4 @@ Upon successful execution, you will observe that concert-reservation is running 
 • follow the instructions provided in the attached document in an email and run the following command to start the test.
 
 -	`npm run test`
+
