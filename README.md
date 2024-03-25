@@ -1,4 +1,6 @@
 # How to run the app:
+In this project, I divided it into two separate projects: 
+concert-reservation for the client side and concert-server for the server side.
 
 ## Client Side 
 1.	Firstly, clone the concert-reservation project (https://github.com/Siuuap/concert-reservation). 
